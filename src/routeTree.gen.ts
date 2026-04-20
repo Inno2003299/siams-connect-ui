@@ -9,38 +9,205 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SupervisorIndexRouteImport } from './routes/supervisor.index'
+import { Route as StudentIndexRouteImport } from './routes/student.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as SupervisorLogbooksRouteImport } from './routes/supervisor.logbooks'
+import { Route as SupervisorEvaluationRouteImport } from './routes/supervisor.evaluation'
+import { Route as StudentLogbookRouteImport } from './routes/student.logbook'
+import { Route as StudentCompaniesRouteImport } from './routes/student.companies'
+import { Route as StudentApplicationsRouteImport } from './routes/student.applications'
+import { Route as AdminStudentsRouteImport } from './routes/admin.students'
+import { Route as AdminCompaniesRouteImport } from './routes/admin.companies'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupervisorIndexRoute = SupervisorIndexRouteImport.update({
+  id: '/supervisor/',
+  path: '/supervisor/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentIndexRoute = StudentIndexRouteImport.update({
+  id: '/student/',
+  path: '/student/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupervisorLogbooksRoute = SupervisorLogbooksRouteImport.update({
+  id: '/supervisor/logbooks',
+  path: '/supervisor/logbooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupervisorEvaluationRoute = SupervisorEvaluationRouteImport.update({
+  id: '/supervisor/evaluation',
+  path: '/supervisor/evaluation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentLogbookRoute = StudentLogbookRouteImport.update({
+  id: '/student/logbook',
+  path: '/student/logbook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentCompaniesRoute = StudentCompaniesRouteImport.update({
+  id: '/student/companies',
+  path: '/student/companies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentApplicationsRoute = StudentApplicationsRouteImport.update({
+  id: '/student/applications',
+  path: '/student/applications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminStudentsRoute = AdminStudentsRouteImport.update({
+  id: '/admin/students',
+  path: '/admin/students',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCompaniesRoute = AdminCompaniesRouteImport.update({
+  id: '/admin/companies',
+  path: '/admin/companies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/companies': typeof AdminCompaniesRoute
+  '/admin/students': typeof AdminStudentsRoute
+  '/student/applications': typeof StudentApplicationsRoute
+  '/student/companies': typeof StudentCompaniesRoute
+  '/student/logbook': typeof StudentLogbookRoute
+  '/supervisor/evaluation': typeof SupervisorEvaluationRoute
+  '/supervisor/logbooks': typeof SupervisorLogbooksRoute
+  '/admin/': typeof AdminIndexRoute
+  '/student/': typeof StudentIndexRoute
+  '/supervisor/': typeof SupervisorIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/companies': typeof AdminCompaniesRoute
+  '/admin/students': typeof AdminStudentsRoute
+  '/student/applications': typeof StudentApplicationsRoute
+  '/student/companies': typeof StudentCompaniesRoute
+  '/student/logbook': typeof StudentLogbookRoute
+  '/supervisor/evaluation': typeof SupervisorEvaluationRoute
+  '/supervisor/logbooks': typeof SupervisorLogbooksRoute
+  '/admin': typeof AdminIndexRoute
+  '/student': typeof StudentIndexRoute
+  '/supervisor': typeof SupervisorIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/companies': typeof AdminCompaniesRoute
+  '/admin/students': typeof AdminStudentsRoute
+  '/student/applications': typeof StudentApplicationsRoute
+  '/student/companies': typeof StudentCompaniesRoute
+  '/student/logbook': typeof StudentLogbookRoute
+  '/supervisor/evaluation': typeof SupervisorEvaluationRoute
+  '/supervisor/logbooks': typeof SupervisorLogbooksRoute
+  '/admin/': typeof AdminIndexRoute
+  '/student/': typeof StudentIndexRoute
+  '/supervisor/': typeof SupervisorIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/admin/analytics'
+    | '/admin/companies'
+    | '/admin/students'
+    | '/student/applications'
+    | '/student/companies'
+    | '/student/logbook'
+    | '/supervisor/evaluation'
+    | '/supervisor/logbooks'
+    | '/admin/'
+    | '/student/'
+    | '/supervisor/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/admin/analytics'
+    | '/admin/companies'
+    | '/admin/students'
+    | '/student/applications'
+    | '/student/companies'
+    | '/student/logbook'
+    | '/supervisor/evaluation'
+    | '/supervisor/logbooks'
+    | '/admin'
+    | '/student'
+    | '/supervisor'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/admin/analytics'
+    | '/admin/companies'
+    | '/admin/students'
+    | '/student/applications'
+    | '/student/companies'
+    | '/student/logbook'
+    | '/supervisor/evaluation'
+    | '/supervisor/logbooks'
+    | '/admin/'
+    | '/student/'
+    | '/supervisor/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginRoute: typeof LoginRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminCompaniesRoute: typeof AdminCompaniesRoute
+  AdminStudentsRoute: typeof AdminStudentsRoute
+  StudentApplicationsRoute: typeof StudentApplicationsRoute
+  StudentCompaniesRoute: typeof StudentCompaniesRoute
+  StudentLogbookRoute: typeof StudentLogbookRoute
+  SupervisorEvaluationRoute: typeof SupervisorEvaluationRoute
+  SupervisorLogbooksRoute: typeof SupervisorLogbooksRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  StudentIndexRoute: typeof StudentIndexRoute
+  SupervisorIndexRoute: typeof SupervisorIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,21 +215,101 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/supervisor/': {
+      id: '/supervisor/'
+      path: '/supervisor'
+      fullPath: '/supervisor/'
+      preLoaderRoute: typeof SupervisorIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/': {
+      id: '/student/'
+      path: '/student'
+      fullPath: '/student/'
+      preLoaderRoute: typeof StudentIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/supervisor/logbooks': {
+      id: '/supervisor/logbooks'
+      path: '/supervisor/logbooks'
+      fullPath: '/supervisor/logbooks'
+      preLoaderRoute: typeof SupervisorLogbooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/supervisor/evaluation': {
+      id: '/supervisor/evaluation'
+      path: '/supervisor/evaluation'
+      fullPath: '/supervisor/evaluation'
+      preLoaderRoute: typeof SupervisorEvaluationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/logbook': {
+      id: '/student/logbook'
+      path: '/student/logbook'
+      fullPath: '/student/logbook'
+      preLoaderRoute: typeof StudentLogbookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/companies': {
+      id: '/student/companies'
+      path: '/student/companies'
+      fullPath: '/student/companies'
+      preLoaderRoute: typeof StudentCompaniesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/applications': {
+      id: '/student/applications'
+      path: '/student/applications'
+      fullPath: '/student/applications'
+      preLoaderRoute: typeof StudentApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/students': {
+      id: '/admin/students'
+      path: '/admin/students'
+      fullPath: '/admin/students'
+      preLoaderRoute: typeof AdminStudentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/companies': {
+      id: '/admin/companies'
+      path: '/admin/companies'
+      fullPath: '/admin/companies'
+      preLoaderRoute: typeof AdminCompaniesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginRoute: LoginRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminCompaniesRoute: AdminCompaniesRoute,
+  AdminStudentsRoute: AdminStudentsRoute,
+  StudentApplicationsRoute: StudentApplicationsRoute,
+  StudentCompaniesRoute: StudentCompaniesRoute,
+  StudentLogbookRoute: StudentLogbookRoute,
+  SupervisorEvaluationRoute: SupervisorEvaluationRoute,
+  SupervisorLogbooksRoute: SupervisorLogbooksRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  StudentIndexRoute: StudentIndexRoute,
+  SupervisorIndexRoute: SupervisorIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
