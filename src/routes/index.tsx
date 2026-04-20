@@ -6,7 +6,10 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { isAuthed, role } = useRole();
+  const { isAuthed, role, ready } = useRole();
+  if (!ready) return <div className="min-h-screen bg-background" />;
   if (!isAuthed) return <Navigate to="/login" />;
-  return <Navigate to={`/${role}` as "/student"} />;
+  if (role === "supervisor") return <Navigate to="/supervisor" />;
+  if (role === "admin") return <Navigate to="/admin" />;
+  return <Navigate to="/student" />;
 }

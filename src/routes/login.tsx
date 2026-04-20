@@ -20,16 +20,22 @@ const ROLES: { id: Role; icon: typeof GraduationCap; desc: string }[] = [
 ];
 
 function LoginPage() {
-  const { role, setRole, setAuthed, isAuthed } = useRole();
+  const { role, setRole, setAuthed, isAuthed, ready } = useRole();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
 
-  if (isAuthed) return <Navigate to={`/${role}` as "/student"} />;
+  if (ready && isAuthed) {
+    if (role === "supervisor") return <Navigate to="/supervisor" />;
+    if (role === "admin") return <Navigate to="/admin" />;
+    return <Navigate to="/student" />;
+  }
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     setAuthed(true);
-    navigate({ to: `/${role}` as "/student" });
+    if (role === "supervisor") navigate({ to: "/supervisor" });
+    else if (role === "admin") navigate({ to: "/admin" });
+    else navigate({ to: "/student" });
   };
 
   return (
