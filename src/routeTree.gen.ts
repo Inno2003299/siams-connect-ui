@@ -11,7 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SupervisorIndexRouteImport } from './routes/supervisor.index'
 import { Route as StudentIndexRouteImport } from './routes/student.index'
+import { Route as SupervisorLogbooksRouteImport } from './routes/supervisor.logbooks'
+import { Route as SupervisorEvaluationRouteImport } from './routes/supervisor.evaluation'
 import { Route as StudentLogbookRouteImport } from './routes/student.logbook'
 import { Route as StudentCompaniesRouteImport } from './routes/student.companies'
 import { Route as StudentApplicationsRouteImport } from './routes/student.applications'
@@ -26,9 +29,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupervisorIndexRoute = SupervisorIndexRouteImport.update({
+  id: '/supervisor/',
+  path: '/supervisor/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudentIndexRoute = StudentIndexRouteImport.update({
   id: '/student/',
   path: '/student/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupervisorLogbooksRoute = SupervisorLogbooksRouteImport.update({
+  id: '/supervisor/logbooks',
+  path: '/supervisor/logbooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupervisorEvaluationRoute = SupervisorEvaluationRouteImport.update({
+  id: '/supervisor/evaluation',
+  path: '/supervisor/evaluation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudentLogbookRoute = StudentLogbookRouteImport.update({
@@ -53,7 +71,10 @@ export interface FileRoutesByFullPath {
   '/student/applications': typeof StudentApplicationsRoute
   '/student/companies': typeof StudentCompaniesRoute
   '/student/logbook': typeof StudentLogbookRoute
+  '/supervisor/evaluation': typeof SupervisorEvaluationRoute
+  '/supervisor/logbooks': typeof SupervisorLogbooksRoute
   '/student/': typeof StudentIndexRoute
+  '/supervisor/': typeof SupervisorIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -61,7 +82,10 @@ export interface FileRoutesByTo {
   '/student/applications': typeof StudentApplicationsRoute
   '/student/companies': typeof StudentCompaniesRoute
   '/student/logbook': typeof StudentLogbookRoute
+  '/supervisor/evaluation': typeof SupervisorEvaluationRoute
+  '/supervisor/logbooks': typeof SupervisorLogbooksRoute
   '/student': typeof StudentIndexRoute
+  '/supervisor': typeof SupervisorIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -70,7 +94,10 @@ export interface FileRoutesById {
   '/student/applications': typeof StudentApplicationsRoute
   '/student/companies': typeof StudentCompaniesRoute
   '/student/logbook': typeof StudentLogbookRoute
+  '/supervisor/evaluation': typeof SupervisorEvaluationRoute
+  '/supervisor/logbooks': typeof SupervisorLogbooksRoute
   '/student/': typeof StudentIndexRoute
+  '/supervisor/': typeof SupervisorIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -80,7 +107,10 @@ export interface FileRouteTypes {
     | '/student/applications'
     | '/student/companies'
     | '/student/logbook'
+    | '/supervisor/evaluation'
+    | '/supervisor/logbooks'
     | '/student/'
+    | '/supervisor/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -88,7 +118,10 @@ export interface FileRouteTypes {
     | '/student/applications'
     | '/student/companies'
     | '/student/logbook'
+    | '/supervisor/evaluation'
+    | '/supervisor/logbooks'
     | '/student'
+    | '/supervisor'
   id:
     | '__root__'
     | '/'
@@ -96,7 +129,10 @@ export interface FileRouteTypes {
     | '/student/applications'
     | '/student/companies'
     | '/student/logbook'
+    | '/supervisor/evaluation'
+    | '/supervisor/logbooks'
     | '/student/'
+    | '/supervisor/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -105,7 +141,10 @@ export interface RootRouteChildren {
   StudentApplicationsRoute: typeof StudentApplicationsRoute
   StudentCompaniesRoute: typeof StudentCompaniesRoute
   StudentLogbookRoute: typeof StudentLogbookRoute
+  SupervisorEvaluationRoute: typeof SupervisorEvaluationRoute
+  SupervisorLogbooksRoute: typeof SupervisorLogbooksRoute
   StudentIndexRoute: typeof StudentIndexRoute
+  SupervisorIndexRoute: typeof SupervisorIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -124,11 +163,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/supervisor/': {
+      id: '/supervisor/'
+      path: '/supervisor'
+      fullPath: '/supervisor/'
+      preLoaderRoute: typeof SupervisorIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/student/': {
       id: '/student/'
       path: '/student'
       fullPath: '/student/'
       preLoaderRoute: typeof StudentIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/supervisor/logbooks': {
+      id: '/supervisor/logbooks'
+      path: '/supervisor/logbooks'
+      fullPath: '/supervisor/logbooks'
+      preLoaderRoute: typeof SupervisorLogbooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/supervisor/evaluation': {
+      id: '/supervisor/evaluation'
+      path: '/supervisor/evaluation'
+      fullPath: '/supervisor/evaluation'
+      preLoaderRoute: typeof SupervisorEvaluationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/student/logbook': {
@@ -161,7 +221,10 @@ const rootRouteChildren: RootRouteChildren = {
   StudentApplicationsRoute: StudentApplicationsRoute,
   StudentCompaniesRoute: StudentCompaniesRoute,
   StudentLogbookRoute: StudentLogbookRoute,
+  SupervisorEvaluationRoute: SupervisorEvaluationRoute,
+  SupervisorLogbooksRoute: SupervisorLogbooksRoute,
   StudentIndexRoute: StudentIndexRoute,
+  SupervisorIndexRoute: SupervisorIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
