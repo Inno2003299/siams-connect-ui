@@ -11,6 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StudentIndexRouteImport } from './routes/student.index'
+import { Route as StudentLogbookRouteImport } from './routes/student.logbook'
+import { Route as StudentCompaniesRouteImport } from './routes/student.companies'
+import { Route as StudentApplicationsRouteImport } from './routes/student.applications'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -22,31 +26,86 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudentIndexRoute = StudentIndexRouteImport.update({
+  id: '/student/',
+  path: '/student/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentLogbookRoute = StudentLogbookRouteImport.update({
+  id: '/student/logbook',
+  path: '/student/logbook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentCompaniesRoute = StudentCompaniesRouteImport.update({
+  id: '/student/companies',
+  path: '/student/companies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentApplicationsRoute = StudentApplicationsRouteImport.update({
+  id: '/student/applications',
+  path: '/student/applications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/student/applications': typeof StudentApplicationsRoute
+  '/student/companies': typeof StudentCompaniesRoute
+  '/student/logbook': typeof StudentLogbookRoute
+  '/student/': typeof StudentIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/student/applications': typeof StudentApplicationsRoute
+  '/student/companies': typeof StudentCompaniesRoute
+  '/student/logbook': typeof StudentLogbookRoute
+  '/student': typeof StudentIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/student/applications': typeof StudentApplicationsRoute
+  '/student/companies': typeof StudentCompaniesRoute
+  '/student/logbook': typeof StudentLogbookRoute
+  '/student/': typeof StudentIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/student/applications'
+    | '/student/companies'
+    | '/student/logbook'
+    | '/student/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login'
-  id: '__root__' | '/' | '/login'
+  to:
+    | '/'
+    | '/login'
+    | '/student/applications'
+    | '/student/companies'
+    | '/student/logbook'
+    | '/student'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/student/applications'
+    | '/student/companies'
+    | '/student/logbook'
+    | '/student/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
+  StudentApplicationsRoute: typeof StudentApplicationsRoute
+  StudentCompaniesRoute: typeof StudentCompaniesRoute
+  StudentLogbookRoute: typeof StudentLogbookRoute
+  StudentIndexRoute: typeof StudentIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,13 +124,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/student/': {
+      id: '/student/'
+      path: '/student'
+      fullPath: '/student/'
+      preLoaderRoute: typeof StudentIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/logbook': {
+      id: '/student/logbook'
+      path: '/student/logbook'
+      fullPath: '/student/logbook'
+      preLoaderRoute: typeof StudentLogbookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/companies': {
+      id: '/student/companies'
+      path: '/student/companies'
+      fullPath: '/student/companies'
+      preLoaderRoute: typeof StudentCompaniesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/applications': {
+      id: '/student/applications'
+      path: '/student/applications'
+      fullPath: '/student/applications'
+      preLoaderRoute: typeof StudentApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
+  StudentApplicationsRoute: StudentApplicationsRoute,
+  StudentCompaniesRoute: StudentCompaniesRoute,
+  StudentLogbookRoute: StudentLogbookRoute,
+  StudentIndexRoute: StudentIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
