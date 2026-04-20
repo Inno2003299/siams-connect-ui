@@ -5,7 +5,8 @@ import { useRole } from "@/lib/role";
 import { Navigate } from "@tanstack/react-router";
 
 export function AppShell({ title, children }: { title: string; children: ReactNode }) {
-  const { isAuthed } = useRole();
+  const { isAuthed, ready } = useRole();
+  if (!ready) return <div className="min-h-screen bg-background" />;
   if (!isAuthed) return <Navigate to="/login" />;
   return (
     <div className="min-h-screen bg-background">

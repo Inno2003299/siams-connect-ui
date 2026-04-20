@@ -19,6 +19,7 @@ type Ctx = {
   setRole: (r: Role) => void;
   isAuthed: boolean;
   setAuthed: (v: boolean) => void;
+  ready: boolean;
 };
 
 const RoleContext = createContext<Ctx | null>(null);
@@ -26,12 +27,18 @@ const RoleContext = createContext<Ctx | null>(null);
 export function RoleProvider({ children }: { children: ReactNode }) {
   const [role, setRoleState] = useState<Role>("student");
   const [isAuthed, setAuthedState] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const r = (typeof window !== "undefined" && localStorage.getItem("siams.role")) as Role | null;
-    const a = typeof window !== "undefined" && localStorage.getItem("siams.authed") === "1";
-    if (r) setRoleState(r);
-    setAuthedState(a);
+    try {
+      const r = localStorage.getItem("siams.role") as Role | null;
+      const a = localStorage.getItem("siams.authed") === "1";
+      if (r === "student" || r === "supervisor" || r === "admin") setRoleState(r);
+      setAuthedState(a);
+    } catch {
+      // ignore
+    }
+    setReady(true);
   }, []);
 
   const setRole = (r: Role) => {
@@ -44,7 +51,7 @@ export function RoleProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <RoleContext.Provider value={{ role, setRole, isAuthed, setAuthed }}>
+    <RoleContext.Provider value={{ role, setRole, isAuthed, setAuthed, ready }}>
       {children}
     </RoleContext.Provider>
   );
