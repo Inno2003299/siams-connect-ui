@@ -1,15 +1,17 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-export type Role = "student" | "supervisor" | "admin";
+export type Role = "student" | "company" | "supervisor" | "admin";
 
 export const ROLE_LABEL: Record<Role, string> = {
   student: "Student",
-  supervisor: "Supervisor",
+  company: "Company Supervisor",
+  supervisor: "Academic Supervisor",
   admin: "Admin",
 };
 
 export const ROLE_USER: Record<Role, { name: string; email: string; initials: string }> = {
   student: { name: "Amina Otieno", email: "amina.o@uni.edu", initials: "AO" },
+  company: { name: "Peter Njoroge", email: "p.njoroge@acme.co", initials: "PN" },
   supervisor: { name: "Dr. Mwangi", email: "j.mwangi@uni.edu", initials: "JM" },
   admin: { name: "Sarah Kimani", email: "admin@uni.edu", initials: "SK" },
 };
@@ -33,7 +35,7 @@ export function RoleProvider({ children }: { children: ReactNode }) {
     try {
       const r = localStorage.getItem("siams.role") as Role | null;
       const a = localStorage.getItem("siams.authed") === "1";
-      if (r === "student" || r === "supervisor" || r === "admin") setRoleState(r);
+      if (r === "student" || r === "company" || r === "supervisor" || r === "admin") setRoleState(r);
       setAuthedState(a);
     } catch {
       // ignore
