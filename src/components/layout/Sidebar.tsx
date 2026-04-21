@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { useRole, type Role } from "@/lib/role";
+import { useRole, type Role, ROLE_LABEL } from "@/lib/role";
 import {
   LayoutDashboard,
   Building2,
@@ -10,6 +10,8 @@ import {
   Users,
   BarChart3,
   Briefcase,
+  Stamp,
+  Star,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -21,6 +23,11 @@ const NAV: Record<Role, NavItem[]> = {
     { to: "/student/companies", label: "Companies", icon: Building2 },
     { to: "/student/applications", label: "Applications", icon: FileText },
     { to: "/student/logbook", label: "Logbook", icon: BookOpen },
+  ],
+  company: [
+    { to: "/company", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/company/endorsements", label: "Endorsements", icon: Stamp },
+    { to: "/company/ratings", label: "Student Ratings", icon: Star },
   ],
   supervisor: [
     { to: "/supervisor", label: "Dashboard", icon: LayoutDashboard },
@@ -54,7 +61,7 @@ export function Sidebar() {
 
       <nav className="flex-1 p-3 space-y-1">
         <div className="px-3 pt-3 pb-2 text-[11px] font-medium uppercase tracking-wider text-sidebar-muted">
-          {role === "student" ? "Student" : role === "supervisor" ? "Supervisor" : "Admin"}
+          {ROLE_LABEL[role]}
         </div>
         {items.map((it) => {
           const active = pathname === it.to || (it.to !== `/${role}` && pathname.startsWith(it.to));
@@ -69,7 +76,7 @@ export function Sidebar() {
                   : "text-sidebar-foreground hover:bg-sidebar-active/60"
               }`}
             >
-              <Icon className={`h-4.5 w-4.5 ${active ? "text-primary" : "text-sidebar-muted group-hover:text-foreground"}`} strokeWidth={2} />
+              <Icon className={`h-4 w-4 ${active ? "text-primary" : "text-sidebar-muted group-hover:text-foreground"}`} strokeWidth={2} />
               {it.label}
             </Link>
           );

@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Navigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Briefcase, GraduationCap, ShieldCheck, UserSquare2 } from "lucide-react";
+import { Briefcase, GraduationCap, ShieldCheck, UserSquare2, Building2 } from "lucide-react";
 import { useRole, type Role, ROLE_LABEL } from "@/lib/role";
 
 export const Route = createFileRoute("/login")({
@@ -14,9 +14,10 @@ export const Route = createFileRoute("/login")({
 });
 
 const ROLES: { id: Role; icon: typeof GraduationCap; desc: string }[] = [
-  { id: "student", icon: GraduationCap, desc: "Apply, log progress" },
-  { id: "supervisor", icon: UserSquare2, desc: "Review & evaluate" },
-  { id: "admin", icon: ShieldCheck, desc: "Manage the program" },
+  { id: "student", icon: GraduationCap, desc: "Apply & log" },
+  { id: "company", icon: Building2, desc: "Endorse work" },
+  { id: "supervisor", icon: UserSquare2, desc: "Academic review" },
+  { id: "admin", icon: ShieldCheck, desc: "Manage program" },
 ];
 
 function LoginPage() {
@@ -27,6 +28,7 @@ function LoginPage() {
   if (ready && isAuthed) {
     if (role === "supervisor") return <Navigate to="/supervisor" />;
     if (role === "admin") return <Navigate to="/admin" />;
+    if (role === "company") return <Navigate to="/company" />;
     return <Navigate to="/student" />;
   }
 
@@ -35,6 +37,7 @@ function LoginPage() {
     setAuthed(true);
     if (role === "supervisor") navigate({ to: "/supervisor" });
     else if (role === "admin") navigate({ to: "/admin" });
+    else if (role === "company") navigate({ to: "/company" });
     else navigate({ to: "/student" });
   };
 
@@ -62,7 +65,7 @@ function LoginPage() {
             Sign in to continue to your dashboard.
           </p>
 
-          <div className="mt-6 grid grid-cols-3 gap-2">
+          <div className="mt-6 grid grid-cols-2 gap-2">
             {ROLES.map((r) => {
               const active = role === r.id;
               const Icon = r.icon;
