@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/layout/AppShell";
-import { StatusBadge } from "@/components/ui-kit/StatCard";
+import { StatusBadge, WorkflowPipeline, Section } from "@/components/ui-kit/StatCard";
 import { useState } from "react";
 import { Calendar, Check } from "lucide-react";
 
@@ -21,7 +21,18 @@ function Logbook() {
 
   return (
     <AppShell title="Weekly Logbook">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <Section title="Week 9 workflow">
+        <div className="rounded-xl border border-border bg-card p-5 lg:p-6 shadow-card">
+          <WorkflowPipeline current={submitted ? "Submitted" : "Draft"} />
+          <p className="mt-4 text-xs text-muted-foreground text-center">
+            Your entry flows from <span className="font-medium text-foreground">Draft</span> → submitted to your{" "}
+            <span className="font-medium text-foreground">Company Supervisor</span> → endorsed → reviewed by your{" "}
+            <span className="font-medium text-foreground">Academic Supervisor</span> → finalized.
+          </p>
+        </div>
+      </Section>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
         <div className="lg:col-span-2 rounded-xl border border-border bg-card p-6 shadow-card">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div>
