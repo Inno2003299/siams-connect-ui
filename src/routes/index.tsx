@@ -11,5 +11,6 @@ function Index() {
   if (!isAuthed) return <Navigate to="/login" />;
   if (role === "supervisor") return <Navigate to="/supervisor" />;
   if (role === "admin") return <Navigate to="/admin" />;
+  if (role === "company") return <Navigate to="/company" />;
   return <Navigate to="/student" />;
 }
