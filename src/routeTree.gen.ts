@@ -13,12 +13,15 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SupervisorIndexRouteImport } from './routes/supervisor.index'
 import { Route as StudentIndexRouteImport } from './routes/student.index'
+import { Route as CompanyIndexRouteImport } from './routes/company.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SupervisorLogbooksRouteImport } from './routes/supervisor.logbooks'
 import { Route as SupervisorEvaluationRouteImport } from './routes/supervisor.evaluation'
 import { Route as StudentLogbookRouteImport } from './routes/student.logbook'
 import { Route as StudentCompaniesRouteImport } from './routes/student.companies'
 import { Route as StudentApplicationsRouteImport } from './routes/student.applications'
+import { Route as CompanyRatingsRouteImport } from './routes/company.ratings'
+import { Route as CompanyEndorsementsRouteImport } from './routes/company.endorsements'
 import { Route as AdminStudentsRouteImport } from './routes/admin.students'
 import { Route as AdminCompaniesRouteImport } from './routes/admin.companies'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
@@ -41,6 +44,11 @@ const SupervisorIndexRoute = SupervisorIndexRouteImport.update({
 const StudentIndexRoute = StudentIndexRouteImport.update({
   id: '/student/',
   path: '/student/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompanyIndexRoute = CompanyIndexRouteImport.update({
+  id: '/company/',
+  path: '/company/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -73,6 +81,16 @@ const StudentApplicationsRoute = StudentApplicationsRouteImport.update({
   path: '/student/applications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompanyRatingsRoute = CompanyRatingsRouteImport.update({
+  id: '/company/ratings',
+  path: '/company/ratings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompanyEndorsementsRoute = CompanyEndorsementsRouteImport.update({
+  id: '/company/endorsements',
+  path: '/company/endorsements',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminStudentsRoute = AdminStudentsRouteImport.update({
   id: '/admin/students',
   path: '/admin/students',
@@ -95,12 +113,15 @@ export interface FileRoutesByFullPath {
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/companies': typeof AdminCompaniesRoute
   '/admin/students': typeof AdminStudentsRoute
+  '/company/endorsements': typeof CompanyEndorsementsRoute
+  '/company/ratings': typeof CompanyRatingsRoute
   '/student/applications': typeof StudentApplicationsRoute
   '/student/companies': typeof StudentCompaniesRoute
   '/student/logbook': typeof StudentLogbookRoute
   '/supervisor/evaluation': typeof SupervisorEvaluationRoute
   '/supervisor/logbooks': typeof SupervisorLogbooksRoute
   '/admin/': typeof AdminIndexRoute
+  '/company/': typeof CompanyIndexRoute
   '/student/': typeof StudentIndexRoute
   '/supervisor/': typeof SupervisorIndexRoute
 }
@@ -110,12 +131,15 @@ export interface FileRoutesByTo {
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/companies': typeof AdminCompaniesRoute
   '/admin/students': typeof AdminStudentsRoute
+  '/company/endorsements': typeof CompanyEndorsementsRoute
+  '/company/ratings': typeof CompanyRatingsRoute
   '/student/applications': typeof StudentApplicationsRoute
   '/student/companies': typeof StudentCompaniesRoute
   '/student/logbook': typeof StudentLogbookRoute
   '/supervisor/evaluation': typeof SupervisorEvaluationRoute
   '/supervisor/logbooks': typeof SupervisorLogbooksRoute
   '/admin': typeof AdminIndexRoute
+  '/company': typeof CompanyIndexRoute
   '/student': typeof StudentIndexRoute
   '/supervisor': typeof SupervisorIndexRoute
 }
@@ -126,12 +150,15 @@ export interface FileRoutesById {
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/companies': typeof AdminCompaniesRoute
   '/admin/students': typeof AdminStudentsRoute
+  '/company/endorsements': typeof CompanyEndorsementsRoute
+  '/company/ratings': typeof CompanyRatingsRoute
   '/student/applications': typeof StudentApplicationsRoute
   '/student/companies': typeof StudentCompaniesRoute
   '/student/logbook': typeof StudentLogbookRoute
   '/supervisor/evaluation': typeof SupervisorEvaluationRoute
   '/supervisor/logbooks': typeof SupervisorLogbooksRoute
   '/admin/': typeof AdminIndexRoute
+  '/company/': typeof CompanyIndexRoute
   '/student/': typeof StudentIndexRoute
   '/supervisor/': typeof SupervisorIndexRoute
 }
@@ -143,12 +170,15 @@ export interface FileRouteTypes {
     | '/admin/analytics'
     | '/admin/companies'
     | '/admin/students'
+    | '/company/endorsements'
+    | '/company/ratings'
     | '/student/applications'
     | '/student/companies'
     | '/student/logbook'
     | '/supervisor/evaluation'
     | '/supervisor/logbooks'
     | '/admin/'
+    | '/company/'
     | '/student/'
     | '/supervisor/'
   fileRoutesByTo: FileRoutesByTo
@@ -158,12 +188,15 @@ export interface FileRouteTypes {
     | '/admin/analytics'
     | '/admin/companies'
     | '/admin/students'
+    | '/company/endorsements'
+    | '/company/ratings'
     | '/student/applications'
     | '/student/companies'
     | '/student/logbook'
     | '/supervisor/evaluation'
     | '/supervisor/logbooks'
     | '/admin'
+    | '/company'
     | '/student'
     | '/supervisor'
   id:
@@ -173,12 +206,15 @@ export interface FileRouteTypes {
     | '/admin/analytics'
     | '/admin/companies'
     | '/admin/students'
+    | '/company/endorsements'
+    | '/company/ratings'
     | '/student/applications'
     | '/student/companies'
     | '/student/logbook'
     | '/supervisor/evaluation'
     | '/supervisor/logbooks'
     | '/admin/'
+    | '/company/'
     | '/student/'
     | '/supervisor/'
   fileRoutesById: FileRoutesById
@@ -189,12 +225,15 @@ export interface RootRouteChildren {
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminCompaniesRoute: typeof AdminCompaniesRoute
   AdminStudentsRoute: typeof AdminStudentsRoute
+  CompanyEndorsementsRoute: typeof CompanyEndorsementsRoute
+  CompanyRatingsRoute: typeof CompanyRatingsRoute
   StudentApplicationsRoute: typeof StudentApplicationsRoute
   StudentCompaniesRoute: typeof StudentCompaniesRoute
   StudentLogbookRoute: typeof StudentLogbookRoute
   SupervisorEvaluationRoute: typeof SupervisorEvaluationRoute
   SupervisorLogbooksRoute: typeof SupervisorLogbooksRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  CompanyIndexRoute: typeof CompanyIndexRoute
   StudentIndexRoute: typeof StudentIndexRoute
   SupervisorIndexRoute: typeof SupervisorIndexRoute
 }
@@ -227,6 +266,13 @@ declare module '@tanstack/react-router' {
       path: '/student'
       fullPath: '/student/'
       preLoaderRoute: typeof StudentIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/company/': {
+      id: '/company/'
+      path: '/company'
+      fullPath: '/company/'
+      preLoaderRoute: typeof CompanyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -271,6 +317,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentApplicationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/company/ratings': {
+      id: '/company/ratings'
+      path: '/company/ratings'
+      fullPath: '/company/ratings'
+      preLoaderRoute: typeof CompanyRatingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/company/endorsements': {
+      id: '/company/endorsements'
+      path: '/company/endorsements'
+      fullPath: '/company/endorsements'
+      preLoaderRoute: typeof CompanyEndorsementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/students': {
       id: '/admin/students'
       path: '/admin/students'
@@ -301,12 +361,15 @@ const rootRouteChildren: RootRouteChildren = {
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminCompaniesRoute: AdminCompaniesRoute,
   AdminStudentsRoute: AdminStudentsRoute,
+  CompanyEndorsementsRoute: CompanyEndorsementsRoute,
+  CompanyRatingsRoute: CompanyRatingsRoute,
   StudentApplicationsRoute: StudentApplicationsRoute,
   StudentCompaniesRoute: StudentCompaniesRoute,
   StudentLogbookRoute: StudentLogbookRoute,
   SupervisorEvaluationRoute: SupervisorEvaluationRoute,
   SupervisorLogbooksRoute: SupervisorLogbooksRoute,
   AdminIndexRoute: AdminIndexRoute,
+  CompanyIndexRoute: CompanyIndexRoute,
   StudentIndexRoute: StudentIndexRoute,
   SupervisorIndexRoute: SupervisorIndexRoute,
 }
