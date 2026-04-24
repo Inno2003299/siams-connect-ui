@@ -1,97 +1,243 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/layout/AppShell";
-import { StatusBadge, WorkflowPipeline, Section } from "@/components/ui-kit/StatCard";
+import { StatusBadge, WorkflowPipeline, Section, type PipelineStage } from "@/components/ui-kit/StatCard";
 import { useState } from "react";
-import { Calendar, Check } from "lucide-react";
+import { Calendar, Check, Plus, Clock, Sparkles, AlertCircle } from "lucide-react";
+import { useQuickActions } from "@/lib/quickActions";
+import { NewEntryModal } from "@/components/modals/NewEntryModal";
 
 export const Route = createFileRoute("/student/logbook")({
   head: () => ({ meta: [{ title: "Logbook — SIAMS" }] }),
   component: Logbook,
 });
 
-const HISTORY = [
-  { week: "Week 8", date: "Apr 14 – Apr 20", s: "Approved" as const, snippet: "Built and deployed the ETL job for the customer churn dataset." },
-  { week: "Week 7", date: "Apr 07 – Apr 13", s: "Approved" as const, snippet: "Pair-programmed on the recommendation service. Wrote 12 unit tests." },
-  { week: "Week 6", date: "Mar 31 – Apr 06", s: "Pending" as const, snippet: "Onboarded onto the data team's repo. Set up local environment." },
+type DailyEntry = {
+  id: string;
+  day: string; // "Monday"
+  date: string; // "Apr 21"
+  tasks: string;
+  skills: string[];
+  hours: number;
+};
+
+type Week = {
+  label: string;
+  range: string;
+  stage: PipelineStage;
+  qualityScore?: number;
+  entries: DailyEntry[];
+};
+
+const PAST_WEEKS: Week[] = [
+  {
+    label: "Week 8",
+    range: "Apr 14 – Apr 20",
+    stage: "Finalized",
+    qualityScore: 92,
+    entries: [
+      { id: "w8-1", day: "Mon", date: "Apr 14", tasks: "Built ETL job for churn dataset.", skills: ["Python", "Airflow"], hours: 8 },
+      { id: "w8-2", day: "Tue", date: "Apr 15", tasks: "Wrote unit tests covering 4 edge cases.", skills: ["pytest"], hours: 7 },
+      { id: "w8-3", day: "Wed", date: "Apr 16", tasks: "Deployed pipeline to staging.", skills: ["Docker", "Airflow"], hours: 8 },
+      { id: "w8-4", day: "Thu", date: "Apr 17", tasks: "Ran 30-day backfill, validated metrics.", skills: ["BigQuery"], hours: 9 },
+      { id: "w8-5", day: "Fri", date: "Apr 18", tasks: "Documented runbook in Notion.", skills: ["Notion"], hours: 6 },
+    ],
+  },
+  {
+    label: "Week 7",
+    range: "Apr 07 – Apr 13",
+    stage: "Reviewed",
+    qualityScore: 85,
+    entries: [
+      { id: "w7-1", day: "Mon", date: "Apr 07", tasks: "Pair-programmed on the recommendation service.", skills: ["Python"], hours: 8 },
+      { id: "w7-2", day: "Tue", date: "Apr 08", tasks: "Wrote 12 unit tests for the new endpoint.", skills: ["pytest"], hours: 7 },
+    ],
+  },
 ];
 
+function todayMeta() {
+  const now = new Date();
+  return {
+    day: now.toLocaleDateString("en-US", { weekday: "short" }),
+    fullDay: now.toLocaleDateString("en-US", { weekday: "long" }),
+    date: now.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+    longDate: now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }),
+    time: now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }),
+  };
+}
+
 function Logbook() {
-  const [text, setText] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [currentEntries, setCurrentEntries] = useState<DailyEntry[]>([]);
+  const [stage, setStage] = useState<PipelineStage>("Draft");
+  const { setOpen } = useQuickActions();
+  const [localOpen, setLocalOpen] = useState(false);
+  const meta = todayMeta();
+
+  const addEntry = (e: { tasks: string; skills: string[]; hours: number }) => {
+    const m = todayMeta();
+    setCurrentEntries((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), day: m.day, date: m.date, tasks: e.tasks, skills: e.skills, hours: e.hours },
+    ]);
+  };
+
+  const submitWeek = () => setStage("Submitted");
+
+  const totalHours = currentEntries.reduce((s, e) => s + e.hours, 0);
+  const canSubmit = currentEntries.length >= 3 && stage === "Draft";
 
   return (
     <AppShell title="Weekly Logbook">
-      <Section title="Week 9 workflow">
-        <div className="rounded-xl border border-border bg-card p-5 lg:p-6 shadow-card">
-          <WorkflowPipeline current={submitted ? "Submitted" : "Draft"} />
-          <p className="mt-4 text-xs text-muted-foreground text-center">
-            Your entry flows from <span className="font-medium text-foreground">Draft</span> → submitted to your{" "}
-            <span className="font-medium text-foreground">Company Supervisor</span> → endorsed → reviewed by your{" "}
-            <span className="font-medium text-foreground">Academic Supervisor</span> → finalized.
-          </p>
-        </div>
-      </Section>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-        <div className="lg:col-span-2 rounded-xl border border-border bg-card p-6 shadow-card">
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div>
-              <h2 className="text-base font-semibold">Week 9 entry</h2>
-              <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
-                <Calendar className="h-3 w-3" /> Apr 21 – Apr 27 · due Sunday
-              </p>
-            </div>
-            <span className="text-[11px] font-medium text-warning bg-warning-soft px-2 py-1 rounded-full">Not submitted</span>
+      {/* Today banner */}
+      <div className="rounded-xl border border-border bg-gradient-to-br from-primary-soft to-card p-5 lg:p-6 shadow-card">
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div className="text-[11px] uppercase tracking-wider font-semibold text-primary">Today</div>
+            <h2 className="mt-1 text-xl font-semibold flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-primary" /> {meta.longDate}
+            </h2>
+            <p className="mt-1 text-xs text-muted-foreground flex items-center gap-1.5">
+              <Clock className="h-3 w-3" /> {meta.time} · date and time captured automatically
+            </p>
           </div>
+          <button
+            onClick={() => setLocalOpen(true)}
+            className="inline-flex items-center gap-1.5 h-10 px-4 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors shadow-sm"
+          >
+            <Plus className="h-4 w-4" /> Add today's entry
+          </button>
+        </div>
+      </div>
 
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Describe what you worked on this week, what you learned, and any blockers…"
-            rows={10}
-            className="mt-5 w-full p-4 rounded-lg border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring/30 focus:border-ring text-sm resize-y"
-          />
+      {/* Current week workflow */}
+      <Section title="Week 9 — current week">
+        <div className="rounded-xl border border-border bg-card p-5 lg:p-6 shadow-card">
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
+            <div>
+              <div className="text-sm font-semibold">Apr 21 – Apr 27</div>
+              <div className="text-xs text-muted-foreground mt-0.5">
+                {currentEntries.length} of 5 daily entries · {totalHours}h logged
+              </div>
+            </div>
+            <StatusBadge status={stage} />
+          </div>
+          <WorkflowPipeline current={stage} />
 
-          <div className="mt-4 flex items-center justify-between flex-wrap gap-3">
-            <div className="text-xs text-muted-foreground">{text.length} characters</div>
+          {currentEntries.length === 0 ? (
+            <div className="mt-6 rounded-lg border border-dashed border-border p-8 text-center">
+              <Calendar className="h-8 w-8 mx-auto text-muted-foreground" />
+              <div className="mt-2 text-sm font-medium">No entries yet for this week</div>
+              <p className="mt-1 text-xs text-muted-foreground max-w-sm mx-auto">
+                Add at least 3 daily entries to submit the week for company endorsement.
+              </p>
+              <button
+                onClick={() => setLocalOpen(true)}
+                className="mt-4 inline-flex items-center gap-1.5 h-9 px-4 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90"
+              >
+                <Plus className="h-4 w-4" /> Add first entry
+              </button>
+            </div>
+          ) : (
+            <div className="mt-6 space-y-2.5">
+              {currentEntries.map((e) => (
+                <div key={e.id} className="border border-border rounded-lg p-3.5 hover:bg-muted/30 transition-colors">
+                  <div className="flex items-center justify-between gap-3 flex-wrap">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-lg bg-primary-soft text-primary flex flex-col items-center justify-center">
+                        <span className="text-[9px] font-semibold uppercase leading-none">{e.day}</span>
+                        <span className="text-[11px] font-bold leading-tight">{e.date.split(" ")[1]}</span>
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-sm font-medium">{e.date}</div>
+                        <div className="text-[11px] text-muted-foreground">{e.hours}h logged</div>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {e.skills.map((s) => (
+                        <span key={s} className="text-[10px] font-medium bg-muted text-muted-foreground px-2 py-0.5 rounded-full">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <p className="mt-2 text-sm text-foreground/85 line-clamp-2">{e.tasks}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-5 pt-4 border-t border-border flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
+              {currentEntries.length >= 3 ? (
+                <span>AI quality score: <span className="font-semibold text-foreground">Good</span></span>
+              ) : (
+                <span className="inline-flex items-center gap-1 text-warning">
+                  <AlertCircle className="h-3 w-3" /> Add {3 - currentEntries.length} more entries to submit
+                </span>
+              )}
+            </div>
             <div className="flex items-center gap-2">
-              <button className="h-10 px-4 rounded-lg border border-border bg-card text-sm font-medium hover:bg-muted">
-                Save draft
+              <button
+                onClick={() => setLocalOpen(true)}
+                className="h-10 px-4 rounded-lg border border-border bg-card text-sm font-medium hover:bg-muted"
+              >
+                <Plus className="h-4 w-4 inline -mt-0.5 mr-1" /> Add entry
               </button>
               <button
-                onClick={() => { setSubmitted(true); setText(""); }}
-                disabled={text.trim().length < 5}
+                onClick={submitWeek}
+                disabled={!canSubmit}
                 className="h-10 px-5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                Submit entry
+                Submit week
               </button>
             </div>
           </div>
 
-          {submitted && (
-            <div className="mt-4 flex items-center gap-2 text-sm text-success bg-success-soft px-3 py-2 rounded-lg">
-              <Check className="h-4 w-4" /> Submitted! Your supervisor will review shortly.
+          {stage !== "Draft" && (
+            <div className="mt-3 flex items-center gap-2 text-sm text-success bg-success-soft px-3 py-2 rounded-lg">
+              <Check className="h-4 w-4" /> Week submitted! Awaiting company endorsement.
             </div>
           )}
         </div>
+      </Section>
 
-        <div className="rounded-xl border border-border bg-card p-6 shadow-card">
-          <h3 className="text-sm font-semibold mb-1">Submission history</h3>
-          <p className="text-xs text-muted-foreground mb-4">Past 8 weeks</p>
-          <ul className="space-y-3">
-            {HISTORY.map((h) => (
-              <li key={h.week} className="border border-border rounded-lg p-3 hover:bg-muted/40 transition-colors">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-medium">{h.week}</div>
-                  <StatusBadge status={h.s} />
+      {/* Past weeks timeline */}
+      <Section title="Submission history" action={<button onClick={() => setOpen("letter")} className="text-xs font-medium text-primary hover:underline">Generate letter</button>}>
+        <div className="space-y-4">
+          {PAST_WEEKS.map((w) => (
+            <div key={w.label} className="rounded-xl border border-border bg-card p-5 shadow-card">
+              <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+                <div>
+                  <div className="text-sm font-semibold">{w.label}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{w.range} · {w.entries.length} entries</div>
                 </div>
-                <div className="text-[11px] text-muted-foreground mt-0.5">{h.date}</div>
-                <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{h.snippet}</p>
-              </li>
-            ))}
-          </ul>
+                <div className="flex items-center gap-2">
+                  {w.qualityScore && (
+                    <span className="inline-flex items-center gap-1 text-[11px] font-medium bg-primary-soft text-primary px-2 py-0.5 rounded-full">
+                      <Sparkles className="h-3 w-3" /> {w.qualityScore}% quality
+                    </span>
+                  )}
+                  <StatusBadge status={w.stage} />
+                </div>
+              </div>
+              <WorkflowPipeline current={w.stage} />
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {w.entries.map((e) => (
+                  <div key={e.id} className="border border-border rounded-md p-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="text-xs font-semibold">{e.day} · {e.date}</div>
+                      <div className="text-[10px] text-muted-foreground">{e.hours}h</div>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{e.tasks}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
+      </Section>
+
+      <NewEntryModal open={localOpen} onClose={() => setLocalOpen(false)} onSubmit={addEntry} />
     </AppShell>
   );
 }
