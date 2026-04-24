@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/layout/AppShell";
 import { StatusBadge } from "@/components/ui-kit/StatCard";
 import { Building2 } from "lucide-react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/student/applications")({
   head: () => ({ meta: [{ title: "Applications — SIAMS" }] }),
@@ -17,20 +18,34 @@ const ROWS = [
   { c: "BRCK", role: "Embedded Intern", date: "Mar 21", s: "Rejected" as const },
 ];
 
+const TABS = ["All", "Pending", "Approved", "Rejected"] as const;
+type Tab = typeof TABS[number];
+
 function Applications() {
+  const [tab, setTab] = useState<Tab>("All");
+  const filtered = tab === "All" ? ROWS : ROWS.filter((r) => r.s === tab);
+
   return (
     <AppShell title="Applications">
       <div className="flex items-center gap-3 flex-wrap mb-5">
-        {(["All", "Pending", "Approved", "Rejected"] as const).map((t, i) => (
-          <button
-            key={t}
-            className={`h-9 px-4 rounded-lg text-sm font-medium transition-colors ${
-              i === 0 ? "bg-primary text-primary-foreground" : "bg-card border border-border hover:bg-muted"
-            }`}
-          >
-            {t}
-          </button>
-        ))}
+        {TABS.map((t) => {
+          const active = t === tab;
+          const count = t === "All" ? ROWS.length : ROWS.filter((r) => r.s === t).length;
+          return (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={`h-9 px-4 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-2 ${
+                active ? "bg-primary text-primary-foreground" : "bg-card border border-border hover:bg-muted"
+              }`}
+            >
+              {t}
+              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${active ? "bg-white/20" : "bg-muted text-muted-foreground"}`}>
+                {count}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
@@ -45,7 +60,7 @@ function Applications() {
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {ROWS.map((r) => (
+            {filtered.map((r) => (
               <tr key={r.c + r.role} className="hover:bg-muted/30 transition-colors">
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-3">
@@ -63,6 +78,13 @@ function Applications() {
                 </td>
               </tr>
             ))}
+            {filtered.length === 0 && (
+              <tr>
+                <td colSpan={5} className="px-5 py-10 text-center text-sm text-muted-foreground">
+                  No {tab.toLowerCase()} applications.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
