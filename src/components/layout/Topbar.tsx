@@ -52,39 +52,41 @@ export function Topbar({ title }: { title: string }) {
         />
       </div>
 
-      {/* Quick action menu */}
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
-          aria-label="Quick actions"
-        >
-          <Zap className="h-4 w-4" />
-          <span className="hidden sm:inline">Quick action</span>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-72 p-2">
-          <DropdownMenuLabel className="px-2 pt-1 pb-2 text-[11px] uppercase tracking-wider text-muted-foreground">
-            Quick actions
-          </DropdownMenuLabel>
-          {quickItems.map((it) => {
-            const Icon = it.icon;
-            return (
-              <DropdownMenuItem
-                key={it.label}
-                onClick={() => setOpen(it.id)}
-                className="flex items-start gap-3 p-2.5 rounded-md cursor-pointer focus:bg-muted"
-              >
-                <div className="h-8 w-8 rounded-md bg-primary-soft text-primary flex items-center justify-center shrink-0">
-                  <Icon className="h-4 w-4" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-sm font-medium leading-tight">{it.label}</div>
-                  <div className="text-[11px] text-muted-foreground leading-tight mt-0.5">{it.desc}</div>
-                </div>
-              </DropdownMenuItem>
-            );
-          })}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      {/* Quick action menu — student only */}
+      {role === "student" && (
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+            aria-label="Quick actions"
+          >
+            <Zap className="h-4 w-4" />
+            <span className="hidden sm:inline">Quick action</span>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-72 p-2">
+            <DropdownMenuLabel className="px-2 pt-1 pb-2 text-[11px] uppercase tracking-wider text-muted-foreground">
+              Quick actions
+            </DropdownMenuLabel>
+            {quickItems.map((it) => {
+              const Icon = it.icon;
+              return (
+                <DropdownMenuItem
+                  key={it.label}
+                  onClick={() => setOpen(it.id)}
+                  className="flex items-start gap-3 p-2.5 rounded-md cursor-pointer focus:bg-muted"
+                >
+                  <div className="h-8 w-8 rounded-md bg-primary-soft text-primary flex items-center justify-center shrink-0">
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-sm font-medium leading-tight">{it.label}</div>
+                    <div className="text-[11px] text-muted-foreground leading-tight mt-0.5">{it.desc}</div>
+                  </div>
+                </DropdownMenuItem>
+              );
+            })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
 
       {/* Notifications */}
       <DropdownMenu>
