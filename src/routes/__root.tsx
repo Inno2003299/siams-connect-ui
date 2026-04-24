@@ -1,5 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { RoleProvider } from "@/lib/role";
+import { QuickActionsProvider } from "@/lib/quickActions";
+import { QuickActionsModals } from "@/components/modals/QuickActionsModals";
 
 import appCss from "../styles.css?url";
 
@@ -68,7 +70,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   return (
     <RoleProvider>
-      <Outlet />
+      <QuickActionsProvider>
+        <Outlet />
+        <QuickActionsModals />
+      </QuickActionsProvider>
     </RoleProvider>
   );
 }
