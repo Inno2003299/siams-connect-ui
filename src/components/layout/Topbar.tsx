@@ -1,4 +1,4 @@
-import { Bell, LogOut, Search, ChevronDown, Zap, FileText, BookOpen, Building2, Upload, Check } from "lucide-react";
+import { Bell, LogOut, Search, ChevronDown, Zap, FileText, BookOpen, Building2, Upload, Check, Send } from "lucide-react";
 import { useRole, ROLE_LABEL, ROLE_USER } from "@/lib/role";
 import { useNavigate } from "@tanstack/react-router";
 import {
@@ -34,6 +34,7 @@ export function Topbar({ title }: { title: string }) {
   const quickItems: { id: QuickActionModal; label: string; icon: typeof FileText; desc: string }[] = [
     { id: "letter", label: "Generate letter", icon: FileText, desc: "Attachment introduction letter" },
     { id: "newEntry", label: "New logbook entry", icon: BookOpen, desc: "Today's tasks & hours" },
+    { id: "submitWeek", label: "Submit weekly logbook", icon: Send, desc: "Send week for endorsement" },
     { id: "apply", label: "Apply to company", icon: Building2, desc: "Submit a new application" },
     { id: "upload", label: "Upload document", icon: Upload, desc: "CV, transcript, ID" },
   ];

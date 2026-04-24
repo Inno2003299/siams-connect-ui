@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/layout/AppShell";
 import { StatusBadge, WorkflowPipeline, Section, type PipelineStage } from "@/components/ui-kit/StatCard";
 import { useState } from "react";
-import { Calendar, Check, Plus, Clock, Sparkles, AlertCircle } from "lucide-react";
+import { Calendar, Check, Plus, Clock, Sparkles, AlertCircle, MessageSquare, Stamp, GraduationCap } from "lucide-react";
 import { useQuickActions } from "@/lib/quickActions";
 import { NewEntryModal } from "@/components/modals/NewEntryModal";
 
@@ -234,6 +234,64 @@ function Logbook() {
               </div>
             </div>
           ))}
+        </div>
+      </Section>
+
+      {/* Feedback */}
+      <Section title="Feedback">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="rounded-xl border border-border bg-card p-5 shadow-card">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="h-8 w-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center">
+                <Stamp className="h-4 w-4" />
+              </div>
+              <div>
+                <div className="text-sm font-semibold">Company supervisor</div>
+                <div className="text-[11px] text-muted-foreground">Peter Njoroge · Acme Industries</div>
+              </div>
+            </div>
+            <div className="space-y-2.5">
+              <div className="rounded-lg bg-muted/40 p-3 text-sm">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-primary">Week 8</span>
+                  <span className="text-[10px] text-muted-foreground">2d ago</span>
+                </div>
+                <p className="text-foreground/90 leading-snug">Excellent work on the ETL pipeline. The runbook documentation is thorough.</p>
+              </div>
+              <div className="rounded-lg bg-muted/40 p-3 text-sm">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-primary">Week 7</span>
+                  <span className="text-[10px] text-muted-foreground">1w ago</span>
+                </div>
+                <p className="text-foreground/90 leading-snug">Good test coverage. Try to add more edge cases next week.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-border bg-card p-5 shadow-card">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="h-8 w-8 rounded-lg bg-success-soft text-success flex items-center justify-center">
+                <GraduationCap className="h-4 w-4" />
+              </div>
+              <div>
+                <div className="text-sm font-semibold">Academic supervisor</div>
+                <div className="text-[11px] text-muted-foreground">Dr. J. Mwangi</div>
+              </div>
+            </div>
+            <div className="space-y-2.5">
+              <div className="rounded-lg bg-muted/40 p-3 text-sm">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-success">Week 8</span>
+                  <span className="text-[10px] text-muted-foreground">3d ago</span>
+                </div>
+                <p className="text-foreground/90 leading-snug">Great alignment with course outcomes. Reflect more on lessons learned in your weekly summary.</p>
+              </div>
+              <div className="rounded-lg bg-muted/40 p-3 text-sm flex items-start gap-2">
+                <MessageSquare className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
+                <p className="text-muted-foreground italic leading-snug">No new comments on Week 7.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </Section>
 
