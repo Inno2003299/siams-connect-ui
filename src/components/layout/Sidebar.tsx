@@ -26,8 +26,11 @@ const NAV: Record<Role, NavItem[]> = {
   ],
   company: [
     { to: "/company", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/company/students", label: "Students", icon: Users },
     { to: "/company/endorsements", label: "Endorsements", icon: Stamp },
-    { to: "/company/ratings", label: "Student Ratings", icon: Star },
+    { to: "/company/evaluations", label: "Evaluations", icon: GraduationCap },
+    { to: "/company/letters", label: "Letters", icon: FileText },
+    { to: "/company/ratings", label: "Ratings", icon: Star },
   ],
   supervisor: [
     { to: "/supervisor", label: "Dashboard", icon: LayoutDashboard },
