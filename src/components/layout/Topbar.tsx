@@ -85,6 +85,11 @@ export function Topbar({ title }: { title: string }) {
         </DropdownMenu>
       )}
 
+      {/* Title — middle */}
+      <div className="flex-1 min-w-0 flex justify-center">
+        <h1 className="text-lg font-semibold text-foreground truncate text-center">{title}</h1>
+      </div>
+
       {/* Notifications */}
       <DropdownMenu>
         <DropdownMenuTrigger
