@@ -20,7 +20,10 @@ import { Route as SupervisorEvaluationRouteImport } from './routes/supervisor.ev
 import { Route as StudentLogbookRouteImport } from './routes/student.logbook'
 import { Route as StudentCompaniesRouteImport } from './routes/student.companies'
 import { Route as StudentApplicationsRouteImport } from './routes/student.applications'
+import { Route as CompanyStudentsRouteImport } from './routes/company.students'
 import { Route as CompanyRatingsRouteImport } from './routes/company.ratings'
+import { Route as CompanyLettersRouteImport } from './routes/company.letters'
+import { Route as CompanyEvaluationsRouteImport } from './routes/company.evaluations'
 import { Route as CompanyEndorsementsRouteImport } from './routes/company.endorsements'
 import { Route as AdminStudentsRouteImport } from './routes/admin.students'
 import { Route as AdminCompaniesRouteImport } from './routes/admin.companies'
@@ -81,9 +84,24 @@ const StudentApplicationsRoute = StudentApplicationsRouteImport.update({
   path: '/student/applications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompanyStudentsRoute = CompanyStudentsRouteImport.update({
+  id: '/company/students',
+  path: '/company/students',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompanyRatingsRoute = CompanyRatingsRouteImport.update({
   id: '/company/ratings',
   path: '/company/ratings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompanyLettersRoute = CompanyLettersRouteImport.update({
+  id: '/company/letters',
+  path: '/company/letters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompanyEvaluationsRoute = CompanyEvaluationsRouteImport.update({
+  id: '/company/evaluations',
+  path: '/company/evaluations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompanyEndorsementsRoute = CompanyEndorsementsRouteImport.update({
@@ -114,7 +132,10 @@ export interface FileRoutesByFullPath {
   '/admin/companies': typeof AdminCompaniesRoute
   '/admin/students': typeof AdminStudentsRoute
   '/company/endorsements': typeof CompanyEndorsementsRoute
+  '/company/evaluations': typeof CompanyEvaluationsRoute
+  '/company/letters': typeof CompanyLettersRoute
   '/company/ratings': typeof CompanyRatingsRoute
+  '/company/students': typeof CompanyStudentsRoute
   '/student/applications': typeof StudentApplicationsRoute
   '/student/companies': typeof StudentCompaniesRoute
   '/student/logbook': typeof StudentLogbookRoute
@@ -132,7 +153,10 @@ export interface FileRoutesByTo {
   '/admin/companies': typeof AdminCompaniesRoute
   '/admin/students': typeof AdminStudentsRoute
   '/company/endorsements': typeof CompanyEndorsementsRoute
+  '/company/evaluations': typeof CompanyEvaluationsRoute
+  '/company/letters': typeof CompanyLettersRoute
   '/company/ratings': typeof CompanyRatingsRoute
+  '/company/students': typeof CompanyStudentsRoute
   '/student/applications': typeof StudentApplicationsRoute
   '/student/companies': typeof StudentCompaniesRoute
   '/student/logbook': typeof StudentLogbookRoute
@@ -151,7 +175,10 @@ export interface FileRoutesById {
   '/admin/companies': typeof AdminCompaniesRoute
   '/admin/students': typeof AdminStudentsRoute
   '/company/endorsements': typeof CompanyEndorsementsRoute
+  '/company/evaluations': typeof CompanyEvaluationsRoute
+  '/company/letters': typeof CompanyLettersRoute
   '/company/ratings': typeof CompanyRatingsRoute
+  '/company/students': typeof CompanyStudentsRoute
   '/student/applications': typeof StudentApplicationsRoute
   '/student/companies': typeof StudentCompaniesRoute
   '/student/logbook': typeof StudentLogbookRoute
@@ -171,7 +198,10 @@ export interface FileRouteTypes {
     | '/admin/companies'
     | '/admin/students'
     | '/company/endorsements'
+    | '/company/evaluations'
+    | '/company/letters'
     | '/company/ratings'
+    | '/company/students'
     | '/student/applications'
     | '/student/companies'
     | '/student/logbook'
@@ -189,7 +219,10 @@ export interface FileRouteTypes {
     | '/admin/companies'
     | '/admin/students'
     | '/company/endorsements'
+    | '/company/evaluations'
+    | '/company/letters'
     | '/company/ratings'
+    | '/company/students'
     | '/student/applications'
     | '/student/companies'
     | '/student/logbook'
@@ -207,7 +240,10 @@ export interface FileRouteTypes {
     | '/admin/companies'
     | '/admin/students'
     | '/company/endorsements'
+    | '/company/evaluations'
+    | '/company/letters'
     | '/company/ratings'
+    | '/company/students'
     | '/student/applications'
     | '/student/companies'
     | '/student/logbook'
@@ -226,7 +262,10 @@ export interface RootRouteChildren {
   AdminCompaniesRoute: typeof AdminCompaniesRoute
   AdminStudentsRoute: typeof AdminStudentsRoute
   CompanyEndorsementsRoute: typeof CompanyEndorsementsRoute
+  CompanyEvaluationsRoute: typeof CompanyEvaluationsRoute
+  CompanyLettersRoute: typeof CompanyLettersRoute
   CompanyRatingsRoute: typeof CompanyRatingsRoute
+  CompanyStudentsRoute: typeof CompanyStudentsRoute
   StudentApplicationsRoute: typeof StudentApplicationsRoute
   StudentCompaniesRoute: typeof StudentCompaniesRoute
   StudentLogbookRoute: typeof StudentLogbookRoute
@@ -317,11 +356,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentApplicationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/company/students': {
+      id: '/company/students'
+      path: '/company/students'
+      fullPath: '/company/students'
+      preLoaderRoute: typeof CompanyStudentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/company/ratings': {
       id: '/company/ratings'
       path: '/company/ratings'
       fullPath: '/company/ratings'
       preLoaderRoute: typeof CompanyRatingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/company/letters': {
+      id: '/company/letters'
+      path: '/company/letters'
+      fullPath: '/company/letters'
+      preLoaderRoute: typeof CompanyLettersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/company/evaluations': {
+      id: '/company/evaluations'
+      path: '/company/evaluations'
+      fullPath: '/company/evaluations'
+      preLoaderRoute: typeof CompanyEvaluationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/company/endorsements': {
@@ -362,7 +422,10 @@ const rootRouteChildren: RootRouteChildren = {
   AdminCompaniesRoute: AdminCompaniesRoute,
   AdminStudentsRoute: AdminStudentsRoute,
   CompanyEndorsementsRoute: CompanyEndorsementsRoute,
+  CompanyEvaluationsRoute: CompanyEvaluationsRoute,
+  CompanyLettersRoute: CompanyLettersRoute,
   CompanyRatingsRoute: CompanyRatingsRoute,
+  CompanyStudentsRoute: CompanyStudentsRoute,
   StudentApplicationsRoute: StudentApplicationsRoute,
   StudentCompaniesRoute: StudentCompaniesRoute,
   StudentLogbookRoute: StudentLogbookRoute,
