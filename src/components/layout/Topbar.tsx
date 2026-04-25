@@ -49,19 +49,7 @@ export function Topbar({ title }: { title: string }) {
 
   return (
     <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur border-b border-border flex items-center px-4 lg:px-8 gap-2 lg:gap-4">
-      <div className="flex-1 min-w-0">
-        <h1 className="text-lg font-semibold text-foreground truncate">{title}</h1>
-      </div>
-
-      <div className="hidden md:flex relative w-64 lg:w-72">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <input
-          placeholder="Search..."
-          className="w-full h-9 pl-9 pr-3 rounded-lg bg-muted border border-transparent focus:bg-card focus:border-border focus:outline-none focus:ring-2 focus:ring-ring/20 text-sm"
-        />
-      </div>
-
-      {/* Quick action menu — student & company supervisor */}
+      {/* Quick action menu — left (student & company supervisor) */}
       {quickItems.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger
