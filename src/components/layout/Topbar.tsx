@@ -83,6 +83,8 @@ export function Topbar({ title }: { title: string }) {
             })}
           </DropdownMenuContent>
         </DropdownMenu>
+      ) : (
+        <div className="w-9" aria-hidden />
       )}
 
       {/* Title — middle */}
