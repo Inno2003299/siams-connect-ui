@@ -1,6 +1,16 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-export type QuickActionModal = "letter" | "newEntry" | "submitWeek" | "apply" | "upload" | null;
+export type QuickActionModal =
+  | "letter"
+  | "newEntry"
+  | "submitWeek"
+  | "apply"
+  | "upload"
+  // company supervisor actions
+  | "pendingLogbooks"
+  | "evaluateStudent"
+  | "viewStudents"
+  | null;
 
 type Ctx = {
   open: QuickActionModal;
