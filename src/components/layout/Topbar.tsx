@@ -50,7 +50,7 @@ export function Topbar({ title }: { title: string }) {
   return (
     <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur border-b border-border flex items-center px-4 lg:px-8 gap-2 lg:gap-4">
       {/* Quick action menu — left (student & company supervisor) */}
-      {quickItems.length > 0 && (
+      {quickItems.length > 0 ? (
         <DropdownMenu>
           <DropdownMenuTrigger
             className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
