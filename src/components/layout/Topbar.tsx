@@ -92,6 +92,37 @@ export function Topbar({ title }: { title: string }) {
         <h1 className="text-lg font-semibold text-foreground truncate text-center">{title}</h1>
       </div>
 
+      {/* User menu */}
+      <DropdownMenu>
+        <DropdownMenuTrigger className="flex items-center gap-2.5 pl-2 pr-2.5 h-10 rounded-lg hover:bg-muted transition-colors">
+          <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground text-xs font-semibold flex items-center justify-center">
+            {user.initials}
+          </div>
+          <div className="hidden sm:block text-left">
+            <div className="text-sm font-medium leading-tight">{user.name}</div>
+            <div className="text-[11px] text-muted-foreground leading-tight">{ROLE_LABEL[role]}</div>
+          </div>
+          <ChevronDown className="h-4 w-4 text-muted-foreground hidden sm:block" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => {
+              setAuthed(false);
+              navigate({ to: "/login" });
+            }}
+            className="text-destructive focus:text-destructive"
+          >
+            <LogOut className="h-4 w-4 mr-2" />
+            Log out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
       {/* Notifications */}
       <DropdownMenu>
         <DropdownMenuTrigger
@@ -129,37 +160,6 @@ export function Topbar({ title }: { title: string }) {
           <div className="px-3 py-2 border-t border-border text-center">
             <button className="text-xs text-primary font-medium hover:underline">View all notifications</button>
           </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      {/* User menu */}
-      <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center gap-2.5 pl-2 pr-2.5 h-10 rounded-lg hover:bg-muted transition-colors">
-          <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground text-xs font-semibold flex items-center justify-center">
-            {user.initials}
-          </div>
-          <div className="hidden sm:block text-left">
-            <div className="text-sm font-medium leading-tight">{user.name}</div>
-            <div className="text-[11px] text-muted-foreground leading-tight">{ROLE_LABEL[role]}</div>
-          </div>
-          <ChevronDown className="h-4 w-4 text-muted-foreground hidden sm:block" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => {
-              setAuthed(false);
-              navigate({ to: "/login" });
-            }}
-            className="text-destructive focus:text-destructive"
-          >
-            <LogOut className="h-4 w-4 mr-2" />
-            Log out
-          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
