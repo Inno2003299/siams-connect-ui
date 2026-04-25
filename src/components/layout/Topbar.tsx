@@ -1,4 +1,4 @@
-import { Bell, LogOut, Search, ChevronDown, Zap, FileText, BookOpen, Building2, Upload, Check, Send } from "lucide-react";
+import { Bell, LogOut, Search, ChevronDown, Zap, FileText, BookOpen, Building2, Upload, Check, Send, Stamp, GraduationCap, Users } from "lucide-react";
 import { useRole, ROLE_LABEL, ROLE_USER } from "@/lib/role";
 import { useNavigate } from "@tanstack/react-router";
 import {
@@ -31,13 +31,21 @@ export function Topbar({ title }: { title: string }) {
   const { setOpen } = useQuickActions();
   const unreadCount = NOTIFICATIONS.filter((n) => n.unread).length;
 
-  const quickItems: { id: QuickActionModal; label: string; icon: typeof FileText; desc: string }[] = [
+  const studentItems: { id: QuickActionModal; label: string; icon: typeof FileText; desc: string }[] = [
     { id: "letter", label: "Generate letter", icon: FileText, desc: "Attachment introduction letter" },
     { id: "newEntry", label: "New logbook entry", icon: BookOpen, desc: "Today's tasks & hours" },
     { id: "submitWeek", label: "Submit weekly logbook", icon: Send, desc: "Send week for endorsement" },
     { id: "apply", label: "Apply to company", icon: Building2, desc: "Submit a new application" },
     { id: "upload", label: "Upload document", icon: Upload, desc: "CV, transcript, ID" },
   ];
+
+  const companyItems: { id: QuickActionModal; label: string; icon: typeof FileText; desc: string }[] = [
+    { id: "pendingLogbooks", label: "View pending logbooks", icon: Stamp, desc: "Logbooks awaiting your endorsement" },
+    { id: "evaluateStudent", label: "Evaluate student", icon: GraduationCap, desc: "Submit final evaluation" },
+    { id: "viewStudents", label: "View assigned students", icon: Users, desc: "All interns under your supervision" },
+  ];
+
+  const quickItems = role === "student" ? studentItems : role === "company" ? companyItems : [];
 
   return (
     <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur border-b border-border flex items-center px-4 lg:px-8 gap-2 lg:gap-4">
@@ -53,8 +61,8 @@ export function Topbar({ title }: { title: string }) {
         />
       </div>
 
-      {/* Quick action menu — student only */}
-      {role === "student" && (
+      {/* Quick action menu — student & company supervisor */}
+      {quickItems.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger
             className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
