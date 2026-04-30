@@ -52,18 +52,18 @@ export function Topbar({ title }: { title: string }) {
 
   return (
     <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur border-b border-border flex items-center px-4 lg:px-8 gap-2 lg:gap-4">
-      {/* Left spacer keeps the title visually centered */}
+      {/* Left spacer to keep title centered */}
       <div className="flex-1 min-w-0" aria-hidden />
 
       {/* Title — center */}
       <h1 className="text-lg font-semibold text-foreground truncate text-center">{title}</h1>
 
-      {/* Right cluster: ⚡ Quick action → 👤 Profile → 🔔 Notifications */}
-      <div className="flex-1 min-w-0 flex items-center justify-end gap-1.5 sm:gap-2">
+      {/* Right cluster: Quick action → Profile → Notifications (L→R) */}
+      <div className="flex-1 min-w-0 flex items-center justify-end gap-2">
         {quickItems.length > 0 && (
           <DropdownMenu>
             <DropdownMenuTrigger
-              className="inline-flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
               aria-label="Quick actions"
             >
               <Zap className="h-4 w-4" />
