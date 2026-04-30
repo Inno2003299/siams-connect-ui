@@ -52,7 +52,7 @@ export function LogbookSetupModal({ open, onClose }: { open: boolean; onClose: (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Logbook Entry Setup</DialogTitle>
+          <DialogTitle>Logbook Entry</DialogTitle>
           <p className="text-xs text-muted-foreground mt-1">
             Complete your particulars to initialize your logbook. This is a one-time setup.
           </p>
