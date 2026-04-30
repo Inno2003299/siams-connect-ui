@@ -3,6 +3,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { StatCard, Section, StatusBadge } from "@/components/ui-kit/StatCard";
 import { FileText, BookOpen, Briefcase, TrendingUp, Sparkles, Bell, Stamp, Mail, ClipboardCheck, AlertCircle, Send, Plus } from "lucide-react";
 import { useQuickActions } from "@/lib/quickActions";
+import { useStudentProfile, getTrainingProgress } from "@/lib/studentProfile";
 
 export const Route = createFileRoute("/student/")({
   head: () => ({ meta: [{ title: "Student Dashboard — SIAMS" }] }),
@@ -30,21 +31,35 @@ const toneClasses: Record<"primary" | "success" | "warning", string> = {
 
 function StudentDashboard() {
   const { setOpen } = useQuickActions();
+  const { profile } = useStudentProfile();
+  const { week, total } = getTrainingProgress(profile);
+  const pct = Math.round((week / total) * 100);
 
   return (
     <AppShell title="Dashboard">
       <div className="rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground p-6 lg:p-8 shadow-elevated">
         <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div>
+          <div className="min-w-0">
             <div className="text-xs font-medium opacity-80 uppercase tracking-wider">Welcome back</div>
             <h2 className="mt-1 text-2xl font-semibold">Hi Amina 👋</h2>
             <p className="mt-1 text-sm opacity-85 max-w-md">
               You have 3 recommended companies waiting for you and 1 logbook entry due this week.
             </p>
+            {profile.completed && (
+              <div className="mt-3 max-w-sm">
+                <div className="flex items-center justify-between text-[11px] opacity-90 font-medium">
+                  <span>Training progress · Week {week} of {total}</span>
+                  <span>{pct}%</span>
+                </div>
+                <div className="mt-1 h-1.5 rounded-full bg-white/20 overflow-hidden">
+                  <div className="h-full bg-white rounded-full transition-all" style={{ width: `${pct}%` }} />
+                </div>
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-2 bg-white/15 backdrop-blur rounded-lg px-3 py-2">
             <Sparkles className="h-4 w-4" />
-            <span className="text-xs font-medium">AI matches refreshed</span>
+            <span className="text-xs font-medium">{profile.completed ? `Week ${week} of ${total}` : "AI matches refreshed"}</span>
           </div>
         </div>
 

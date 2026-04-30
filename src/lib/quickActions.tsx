@@ -3,6 +3,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 export type QuickActionModal =
   | "letter"
   | "newEntry"
+  | "setupLogbook"
   | "submitWeek"
   | "apply"
   | "upload"
