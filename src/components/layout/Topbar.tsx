@@ -1,4 +1,4 @@
-import { Bell, LogOut, ChevronDown, Zap, FileText, BookOpen, Building2, Upload, Check, Send, Stamp, GraduationCap, Users } from "lucide-react";
+import { Bell, LogOut, ChevronDown, Menu, FileText, BookOpen, Building2, Upload, Check, Send, Stamp, GraduationCap, Users } from "lucide-react";
 import { useRole, ROLE_LABEL, ROLE_USER } from "@/lib/role";
 import { useNavigate } from "@tanstack/react-router";
 import {
@@ -63,11 +63,10 @@ export function Topbar({ title }: { title: string }) {
         {quickItems.length > 0 && (
           <DropdownMenu>
             <DropdownMenuTrigger
-              className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
-              aria-label="Quick actions"
+              className="h-9 w-9 rounded-lg hover:bg-muted flex items-center justify-center transition-colors"
+              aria-label="Menu"
             >
-              <Zap className="h-4 w-4" />
-              <span className="hidden md:inline">Quick action</span>
+              <Menu className="h-[18px] w-[18px] text-muted-foreground" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72 p-2">
               <DropdownMenuLabel className="px-2 pt-1 pb-2 text-[11px] uppercase tracking-wider text-muted-foreground">
