@@ -51,12 +51,10 @@ export function Topbar({ title }: { title: string }) {
   const quickItems = role === "student" ? studentItems : role === "company" ? companyItems : [];
 
   return (
-    <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur border-b border-border flex items-center justify-end px-4 lg:px-8 gap-3 lg:gap-4">
-      {/* Title */}
-      <h1 className="text-lg font-semibold text-foreground truncate">{title}</h1>
-
-      {/* Right cluster: Menu → Profile → Notifications */}
-      <div className="flex items-center gap-2">
+    <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur border-b border-border flex items-center px-3 lg:px-5">
+      {/* Right cluster: Title → Menu → Profile → Notifications */}
+      <div className="ml-auto flex max-w-full items-center justify-end gap-1.5 lg:gap-2">
+        <h1 className="max-w-[180px] truncate text-right text-lg font-semibold text-foreground lg:max-w-none">{title}</h1>
         {quickItems.length > 0 && (
           <DropdownMenu>
             <DropdownMenuTrigger
@@ -93,7 +91,7 @@ export function Topbar({ title }: { title: string }) {
 
         {/* Profile */}
         <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-2.5 pl-1.5 pr-2.5 h-10 rounded-lg hover:bg-muted transition-colors">
+          <DropdownMenuTrigger className="flex h-10 items-center gap-2 pl-1 pr-1.5 lg:pr-2 rounded-lg hover:bg-muted transition-colors">
             <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground text-xs font-semibold flex items-center justify-center overflow-hidden ring-2 ring-background">
               {avatarPhoto ? (
                 <img src={avatarPhoto} alt={user.name} className="w-full h-full object-cover" />
