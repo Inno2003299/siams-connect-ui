@@ -51,15 +51,12 @@ export function Topbar({ title }: { title: string }) {
   const quickItems = role === "student" ? studentItems : role === "company" ? companyItems : [];
 
   return (
-    <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur border-b border-border flex items-center px-4 lg:px-8 gap-2 lg:gap-4">
-      {/* Left spacer to keep title centered */}
-      <div className="flex-1 min-w-0" aria-hidden />
+    <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur border-b border-border flex items-center justify-end px-4 lg:px-8 gap-3 lg:gap-4">
+      {/* Title */}
+      <h1 className="text-lg font-semibold text-foreground truncate">{title}</h1>
 
-      {/* Title — center */}
-      <h1 className="text-lg font-semibold text-foreground truncate text-center">{title}</h1>
-
-      {/* Right cluster: Quick action → Profile → Notifications (L→R) */}
-      <div className="flex-1 min-w-0 flex items-center justify-end gap-2">
+      {/* Right cluster: Menu → Profile → Notifications */}
+      <div className="flex items-center gap-2">
         {quickItems.length > 0 && (
           <DropdownMenu>
             <DropdownMenuTrigger
