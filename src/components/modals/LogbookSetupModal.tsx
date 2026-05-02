@@ -34,8 +34,7 @@ export function LogbookSetupModal({ open, onClose }: { open: boolean; onClose: (
 
   const handleSave = () => {
     setProfile({
-      surname: profile.surname,
-      studentId: profile.studentId,
+      ...profile,
       email: user.email,
       faculty,
       department,
