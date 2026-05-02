@@ -89,8 +89,8 @@ export function Topbar({ title }: { title: string }) {
           </DropdownMenu>
         )}
 
-        {/* Profile — nudged right */}
-        <div className="w-6 lg:w-10" />
+        {/* Spacer pushes profile & bell to far right */}
+        <div className="flex-1" />
         <DropdownMenu>
           <DropdownMenuTrigger className="flex h-10 items-center gap-2 pl-1 pr-1.5 lg:pr-2 rounded-lg hover:bg-muted transition-colors">
             <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground text-xs font-semibold flex items-center justify-center overflow-hidden ring-2 ring-background">
