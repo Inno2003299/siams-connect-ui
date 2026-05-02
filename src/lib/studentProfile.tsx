@@ -2,11 +2,14 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 
 export type StudentParticulars = {
   surname: string;
+  otherNames: string;
   studentId: string;
   email: string;
+  phone: string;
   faculty: string;
   department: string;
   program: string;
+  yearOfStudy: string;
   commencement: string; // ISO date
   completion: string; // ISO date
   photoDataUrl: string | null;
@@ -15,11 +18,14 @@ export type StudentParticulars = {
 
 const DEFAULTS: StudentParticulars = {
   surname: "Otieno",
+  otherNames: "Amina",
   studentId: "ENG/2021/0451",
   email: "amina.o@uni.edu",
+  phone: "",
   faculty: "",
   department: "",
   program: "",
+  yearOfStudy: "",
   commencement: "",
   completion: "",
   photoDataUrl: null,
