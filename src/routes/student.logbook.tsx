@@ -2,9 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/layout/AppShell";
 import { StatusBadge, WorkflowPipeline, Section, type PipelineStage } from "@/components/ui-kit/StatCard";
 import { useState } from "react";
-import { Calendar, Check, Plus, Clock, Sparkles, AlertCircle, MessageSquare, Stamp, GraduationCap } from "lucide-react";
+import { Calendar, Check, Plus, Clock, Sparkles, AlertCircle, MessageSquare, Stamp, GraduationCap, Send } from "lucide-react";
 import { useQuickActions } from "@/lib/quickActions";
 import { NewEntryModal } from "@/components/modals/NewEntryModal";
+import { useStudentProfile } from "@/lib/studentProfile";
+import { LogbookOnboarding } from "@/components/logbook/LogbookOnboarding";
 
 export const Route = createFileRoute("/student/logbook")({
   head: () => ({ meta: [{ title: "Logbook — SIAMS" }] }),
@@ -13,8 +15,8 @@ export const Route = createFileRoute("/student/logbook")({
 
 type DailyEntry = {
   id: string;
-  day: string; // "Monday"
-  date: string; // "Apr 21"
+  day: string;
+  date: string;
   tasks: string;
   skills: string[];
   hours: number;
@@ -66,6 +68,17 @@ function todayMeta() {
 }
 
 function Logbook() {
+  const { profile } = useStudentProfile();
+
+  // Show onboarding if profile not completed
+  if (!profile.completed) {
+    return <LogbookOnboarding />;
+  }
+
+  return <LogbookDashboard />;
+}
+
+function LogbookDashboard() {
   const [currentEntries, setCurrentEntries] = useState<DailyEntry[]>([]);
   const [stage, setStage] = useState<PipelineStage>("Draft");
   const { setOpen } = useQuickActions();
