@@ -53,7 +53,7 @@ export function Topbar({ title }: { title: string }) {
   return (
     <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur border-b border-border flex items-center px-3 lg:px-5">
       {/* Left cluster: Title → Menu → Profile → Notifications */}
-      <div className="mr-auto flex max-w-full items-center justify-start gap-1.5 lg:gap-2">
+      <div className="flex w-full items-center gap-1.5 lg:gap-2">
         <h1 className="max-w-[180px] truncate text-lg font-semibold text-foreground lg:max-w-none">{title}</h1>
         {quickItems.length > 0 && (
           <DropdownMenu>
@@ -89,8 +89,8 @@ export function Topbar({ title }: { title: string }) {
           </DropdownMenu>
         )}
 
-        {/* Profile — nudged right */}
-        <div className="w-6 lg:w-10" />
+        {/* Spacer pushes profile & bell to far right */}
+        <div className="flex-1" />
         <DropdownMenu>
           <DropdownMenuTrigger className="flex h-10 items-center gap-2 pl-1 pr-1.5 lg:pr-2 rounded-lg hover:bg-muted transition-colors">
             <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground text-xs font-semibold flex items-center justify-center overflow-hidden ring-2 ring-background">
