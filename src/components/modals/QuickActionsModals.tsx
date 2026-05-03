@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { useQuickActions } from "@/lib/quickActions";
 import { useRole } from "@/lib/role";
 import { useStudentProfile } from "@/lib/studentProfile";
@@ -7,24 +9,30 @@ import { SubmitWeekModal } from "./SubmitWeekModal";
 import { ApplyCompanyModal, UploadDocumentModal } from "./SimpleActionModal";
 import { PendingLogbooksModal, ViewStudentsModal } from "./CompanyQuickModals";
 import { EvaluateStudentModal } from "./EvaluateStudentModal";
-import { LogbookSetupModal } from "./LogbookSetupModal";
 
 export function QuickActionsModals() {
   const { open, setOpen } = useQuickActions();
   const { role } = useRole();
   const { profile } = useStudentProfile();
+  const navigate = useNavigate();
   const close = () => setOpen(null);
 
-  // First-time interception: clicking "New logbook entry" before particulars are filled
-  // routes to the one-time setup modal instead.
-  const showSetup = open === "setupLogbook" || (open === "newEntry" && !profile.completed);
+  // Redirect to logbook page for setup if profile not completed
+  useEffect(() => {
+    const needsSetup =
+      open === "setupLogbook" || (open === "newEntry" && !profile.completed);
+    if (needsSetup) {
+      setOpen(null);
+      navigate({ to: "/student/logbook" });
+    }
+  }, [open, profile.completed, setOpen, navigate]);
+
   const showNewEntry = open === "newEntry" && profile.completed;
 
   return (
     <>
       {/* Student modals */}
       <LetterPreviewModal open={open === "letter"} onClose={close} />
-      <LogbookSetupModal open={showSetup} onClose={close} />
       <NewEntryModal open={showNewEntry} onClose={close} />
       <SubmitWeekModal open={open === "submitWeek"} onClose={close} />
       <ApplyCompanyModal open={open === "apply"} onClose={close} />
